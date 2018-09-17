@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kim.eren.springservlet.controller.PersonController;
 
+@SuppressWarnings("serial")
 @WebServlet("/*")
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	public Map mappedUrls;
@@ -47,21 +48,14 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		preparedMappedDataAtRunTime();
 		controller = new HashMap<String, Object>();
 		for (String pathPart : req.getPathInfo().split("/")) {
-			dispatch(pathPart);
-		}
-
-	}
-
-	private void dispatch(String pathPart) {
-		switch (pathPart) {
-		case "person":
-			controller.put("class", mappedUrls.get("person"));
-			break;
-		case "add":
-			controller.put("method", mappedUrls.get("add"));
-			break;
-		default:
-			break;
+			Object object = mappedUrls.get(pathPart);
+			if (object != null) {
+				if (!(object instanceof String)) {
+					controller.put("class", object);
+				} else {
+					controller.put("method", object);
+				}
+			}
 		}
 
 	}
