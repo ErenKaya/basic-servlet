@@ -28,9 +28,14 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	}
 
 	private void doHandle(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		createControllerInstance(req);
+		prepareMappedDataAtRunTime();
+		createControllerInstance(req,resp);
 		executeController(resp);
 
+	}
+
+	private void checkServlets(HttpServletRequest req, HttpServletResponse resp) {
+		System.out.println(req.getServletContext());
 	}
 
 	private void executeController(HttpServletResponse resp) throws IOException {
@@ -44,10 +49,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		}
 	}
 
-	private void createControllerInstance(HttpServletRequest req) {
-		preparedMappedDataAtRunTime();
+	private void createControllerInstance(HttpServletRequest req, HttpServletResponse resp) {
 		controller = new HashMap<String, Object>();
 		for (String pathPart : req.getPathInfo().split("/")) {
+			checkServlets(req, resp);
 			Object object = mappedUrls.get(pathPart);
 			if (object != null) {
 				if (!(object instanceof String)) {
@@ -60,7 +65,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
-	private void preparedMappedDataAtRunTime() {
+	private void prepareMappedDataAtRunTime() {
 		mappedUrls = new HashMap<String, Object>();
 		mappedUrls.put("person", PersonController.class);
 		mappedUrls.put("add", "addPerson");

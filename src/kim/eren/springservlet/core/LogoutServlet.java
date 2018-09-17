@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//@WebServlet("/LogoutServlet")
+@WebServlet("/LogoutServlet")
 @SuppressWarnings("serial")
 public class LogoutServlet extends HttpServlet {
 

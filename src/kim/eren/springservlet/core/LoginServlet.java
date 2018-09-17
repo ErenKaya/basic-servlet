@@ -18,14 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-//@WebServlet("/LoginServlet")
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet implements Filter {
 
 	private final String userName = "Eren";
 	private final String password = "demo";
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doHandle(req, resp);
+		super.doGet(req, resp);
+	}
+
+	private void doHandle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String user = request.getParameter("user");
 		String pwd = request.getParameter("pwd");
@@ -40,6 +45,13 @@ public class LoginServlet extends HttpServlet implements Filter {
 			out.println("<font color=red>Either user name or password is wrong.</font>");
 			rd.include(request, response);
 		}
+
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doHandle(request, response);
 	}
 
 	@Override
@@ -57,7 +69,7 @@ public class LoginServlet extends HttpServlet implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		
+
 	}
 
 }
