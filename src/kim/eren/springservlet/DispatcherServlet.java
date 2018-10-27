@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import kim.eren.springservlet.controller.PersonController;
 
 @SuppressWarnings("serial")
-@WebServlet("/*")
+//@WebServlet("/*")
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	public Map mappedUrls;
 	public Map controller;
