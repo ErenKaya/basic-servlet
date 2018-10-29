@@ -34,8 +34,8 @@ import axios from 'axios';
               }
         }).then((success)=>{
             console.log(success);
-            this.props.history.push('/LogoutServlet');
-            // window.location = '/LogoutServlet';
+            // this.props.history.push('/LogoutServlet');
+            window.location = '/Basic-Servlet/LogoutServlet';
             
         }).catch((err)=>{
             console.log(err);
