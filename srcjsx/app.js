@@ -5,10 +5,10 @@ import SubMain from './components/SubMain';
 import { Route } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 
-const jsx = (
-   <AppRouter/>
-)
+// const jsx = (
+//    <AppRouter/>
+// )
 
 
-// ReactDOM.render(<Main/>, document.getElementById('app'));
-ReactDOM.render(jsx, document.getElementById('app'));
+ReactDOM.render(<Main/>, document.getElementById('app'));
+// ReactDOM.render(jsx, document.getElementById('app'));
