@@ -1,7 +1,7 @@
 const path = require('path');
 var buildPath = 'WebContent/public/scripts';
 var devServerPath = "WebContent"
-module.exports = {
+module.exports =  {
   entry: './srcjsx/app.js',
   output: {
     path: path.join(__dirname, buildPath),
@@ -26,12 +26,18 @@ module.exports = {
   },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
-    contentBase: devServerPath,
+    contentBase: buildPath,
     proxy: [{
+      // index: '/Basic-Servlet',
       context: [
+        '/LoginServlet',
+        '/LogoutServlet',
         '/Basic-Servlet'
+        
       ],
-      target: `http://127.0.0.1:8081`,
+      target: `http://127.0.0.1:8081/`,
+      // secure: false,
+      // changeOrigin: true,
       headers: { host: 'localhost:4200' }
     }]
   },

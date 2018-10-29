@@ -1,11 +1,11 @@
 import React from 'react'
 import axios from 'axios';
 
-export default class Main extends React.Component{
+ class Main extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            user:"Erens",
+            user:"Eren",
             pwd:""
         }
         this.onClickSubmitLoginForm = this.onClickSubmitLoginForm.bind(this);
@@ -23,14 +23,20 @@ export default class Main extends React.Component{
         console.log(data);
         axios({
             method:'post',
-            url:'LoginServlet',
+            url:'Basic-Servlet/LoginServlet',
             data:this.toJson(data),
+            credentials: 'same-origin',
             headers: {
-                'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": "*",
+                "Cache-Control": "no-cache"
               }
         }).then((success)=>{
             console.log(success);
-            window.location = "LogoutServlet";
+            this.props.history.push('/LogoutServlet');
+            // window.location = '/LogoutServlet';
+            
         }).catch((err)=>{
             console.log(err);
             
@@ -67,3 +73,4 @@ export default class Main extends React.Component{
         )
     }
 }
+export default Main;

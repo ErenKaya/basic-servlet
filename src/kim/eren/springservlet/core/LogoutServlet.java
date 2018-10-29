@@ -40,10 +40,12 @@ public class LogoutServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		PrintWriter out = resp.getWriter();
 		if (SessionHandler.sessionExist(req)) {
-			PrintWriter out = resp.getWriter();
-			out.println("<font color=red>LogoutGetExecuted.</font>");
+			
+			out.println("<font color=green>LogoutGetExecuted.</font>");
 		}
+		out.println("<font color=red>SessionProblem</font>");
 
 	}
 
