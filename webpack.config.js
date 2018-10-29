@@ -1,5 +1,6 @@
 const path = require('path');
 var buildPath = 'WebContent/public/scripts';
+var devServerPath = "WebContent"
 module.exports = {
   entry: './srcjsx/app.js',
   output: {
@@ -25,6 +26,13 @@ module.exports = {
   },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
-    contentBase: path.join(__dirname, buildPath)
-  }
+    contentBase: devServerPath,
+    proxy: [{
+      context: [
+        '/Basic-Servlet'
+      ],
+      target: `http://127.0.0.1:8081`,
+      headers: { host: 'localhost:4200' }
+    }]
+  },
 };

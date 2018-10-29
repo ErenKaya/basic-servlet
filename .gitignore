@@ -85,3 +85,7 @@ target/
 build/*
 
 # End of https://www.gitignore.io/api/eclipse,java-web,visualstudiocode
+node_modules/
+lib/
+./package-lock.json
+package-lock.json

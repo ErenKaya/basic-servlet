@@ -5,7 +5,7 @@ export default class Main extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            user:"Eren",
+            user:"Erens",
             pwd:""
         }
         this.onClickSubmitLoginForm = this.onClickSubmitLoginForm.bind(this);
@@ -17,24 +17,31 @@ export default class Main extends React.Component{
     }
 
     onClickSubmitLoginForm(){
-        let data = {
-            user:this.state.user,
-            pwd:this.state.pwd
-        }
+        let data = new FormData();
+        data.append("users",this.state.user);
+        data.append("pwd",this.state.pwd);
         console.log(data);
-        
         axios({
             method:'post',
             url:'LoginServlet',
-            data:data,
+            data:this.toJson(data),
             headers: {
                 'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
               }
         }).then((success)=>{
             console.log(success);
+            window.location = "LogoutServlet";
         }).catch((err)=>{
             console.log(err);
+            
         })
+    }
+    toJson(formData) {
+        var object = {};
+        formData.forEach(function (value, key) {
+            object[key] = value;
+        });
+        return JSON.stringify(object);
     }
 
     componentDidUpdate(){
@@ -44,7 +51,6 @@ export default class Main extends React.Component{
     onChange(e){
         const name = e.target.name;
         const value = e.target.value;
-        console.log(name + value);
         this.setState((prevState) => ({
             ...prevState,
             [name]:value
