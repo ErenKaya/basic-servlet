@@ -1,6 +1,7 @@
 package kim.eren.springservlet.core;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +9,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import kim.eren.springservlet.util.SessionHandler;
 
 @WebServlet("/LogoutServlet")
 @SuppressWarnings("serial")
@@ -32,6 +35,18 @@ public class LogoutServlet extends HttpServlet {
 			response.addCookie(loginCookie);
 		}
 		response.sendRedirect("index.html");
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		PrintWriter out = resp.getWriter();
+		if (SessionHandler.sessionExist(req)) {
+			
+			out.println("<font color=green>LogoutGetExecuted.</font>");
+		}
+		out.println("<font color=red>SessionProblem</font>");
+
 	}
 
 }

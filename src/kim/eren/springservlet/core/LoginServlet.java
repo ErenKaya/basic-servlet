@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kim.eren.springservlet.util.SessionHandler;
+
 @SuppressWarnings("serial")
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet implements Filter {
@@ -34,16 +36,26 @@ public class LoginServlet extends HttpServlet implements Filter {
 			throws ServletException, IOException {
 		String user = request.getParameter("user");
 		String pwd = request.getParameter("pwd");
+		Cookie loginCookie = new Cookie("user", user);
+		loginCookie.setSecure(false);
+		System.out.println(loginCookie.isHttpOnly());
+		loginCookie.setMaxAge(30 * 60);
+		response.addCookie(loginCookie);
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Cache-Control", "no-cache");
+		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+		response.setHeader("Access-Control-Allow-Methods","OPTIONS,GET,PUT,POST,DELETE");
+		SessionHandler.addSession(request);
 		if (userName.equals(user) && password.equals(pwd)) {
-			Cookie loginCookie = new Cookie("user", user);
-			loginCookie.setMaxAge(30 * 60);
-			response.addCookie(loginCookie);
+			
 			response.sendRedirect("LoginSuccess.jsp");
 		} else {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.html");
 			PrintWriter out = response.getWriter();
 			out.println("<font color=red>Either user name or password is wrong.</font>");
 			rd.include(request, response);
+
 		}
 
 	}
