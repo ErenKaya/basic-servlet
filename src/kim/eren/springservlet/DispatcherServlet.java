@@ -1,7 +1,9 @@
 package kim.eren.springservlet;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -28,8 +30,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	}
 
 	private void doHandle(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		prepareMappedDataAtRunTime();
-		createControllerInstance(req,resp);
+		try {
+			prepareMappedDataAtRunTime();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		createControllerInstance(req, resp);
 		executeController(resp);
 
 	}
@@ -41,7 +47,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	private void executeController(HttpServletResponse resp) throws IOException {
 		if (controller.get("class") == PersonController.class) {
 			Object object = new PersonController();
-			for (java.lang.reflect.Method method : object.getClass().getMethods()) {
+			for (java.lang.reflect.Method method : object.getClass().getDeclaredMethods()) {
 				if (controller.get("method").equals(method.getName())) {
 					resp.getWriter().append(((PersonController) object).addPerson());
 				}
@@ -65,7 +71,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
-	private void prepareMappedDataAtRunTime() {
+	private void prepareMappedDataAtRunTime() throws ClassNotFoundException {
+		Class<?>[] clazz =PersonController.class.getClassLoader()
+				.loadClass("kim.eren.springservlet.controller.PersonController").getDeclaredClasses();
+//		for(Annotation annot : clazz.getAnnotations()) {
+//			System.out.println(annot);
+//		}
 		mappedUrls = new HashMap<String, Object>();
 		mappedUrls.put("person", PersonController.class);
 		mappedUrls.put("add", "addPerson");
